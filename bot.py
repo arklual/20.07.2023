@@ -10,31 +10,29 @@ import json
 zone = zoneinfo.ZoneInfo("Europe/Moscow")
 app = Client("bot", api_id=api_id, api_hash=api_hash)
 
-@app.on_message()
+@app.on_message(filters.chat(CHATS))
 async def on_new_message(client, message:Message):
     if not message.from_user:
         return
-    chat_id = message.chat.username
     user_id = message.from_user.id
-    if chat_id in CHATS:
-        data = []
-        async with aiofiles.open('to_upload.json', 'r',encoding='utf-8') as fp:
-            data = json.loads(await fp.read())
-        for i in data:
-            if i['telegram_id'] == user_id:
-                return
-        data.append({
-            'chat': str(message.chat.title),
-            'first_name': str(message.from_user.first_name),
-            'last_name': str(message.from_user.last_name),
-            'username': str(message.from_user.username),
-            'telegram_id': str(user_id),
-            'phone': str(message.from_user.phone_number),
-            'date': str(datetime.now(zone).date)
-        })
-        print(data)
-        async with aiofiles.open('to_upload.json', 'w',encoding='utf-8') as fp:
-            await fp.write(json.dumps(data, ensure_ascii=False))
+    data = []
+    async with aiofiles.open('to_upload.json', 'r',encoding='utf-8') as fp:
+        data = json.loads(await fp.read())
+    for i in data:
+        if i['telegram_id'] == user_id:
+            return
+    data.append({
+        'chat': str(message.chat.title),
+        'first_name': str(message.from_user.first_name),
+        'last_name': str(message.from_user.last_name),
+        'username': str(message.from_user.username),
+        'telegram_id': str(user_id),
+        'phone': str(message.from_user.phone_number),
+        'date': str(datetime.now(zone).date)
+    })
+    print(data)
+    async with aiofiles.open('to_upload.json', 'w',encoding='utf-8') as fp:
+        await fp.write(json.dumps(data, ensure_ascii=False))
 
 
 app.run()
