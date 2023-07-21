@@ -33,7 +33,7 @@ async def on_new_message(client, message:Message):
             'phone': str(message.from_user.phone_number),
             'date': str(datetime.now(zone).date)
         })
-        async with aiofiles.open('to_upload.json', 'w',encoding='utf-8') as fp:
+        async with aiofiles.open('to_upload.json', 'a',encoding='utf-8') as fp:
             await fp.write(json.dumps(data, ensure_ascii=False))
 
 
