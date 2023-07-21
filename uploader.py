@@ -10,7 +10,7 @@ ws = gc.open('База по крипте').worksheet()
 async def upload():
     while True:
         os.system('cp to_upload.json to_upload_temp.json')
-        async with aiofiles.open('to_upload.json', 'r', encoding='utf-8') as fp:
+        async with aiofiles.open('to_upload.json', 'w', encoding='utf-8') as fp:
             await fp.write('[]')
         ids = ws.get_col(1)
         for n,i in enumerate(ids):
