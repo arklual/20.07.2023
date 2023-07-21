@@ -12,6 +12,9 @@ app = Client("bot", api_id=api_id, api_hash=api_hash)
 
 @app.on_message()
 async def on_new_message(client, message:Message):
+    if not message.from_user:
+        return
+
     chat_id = message.chat.id
     user_id = message.from_user.id
     if chat_id in CHATS:
