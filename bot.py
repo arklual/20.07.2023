@@ -28,7 +28,8 @@ async def on_new_message(client, message:Message):
         'username': str(message.from_user.username),
         'telegram_id': str(user_id),
         'phone': str(message.from_user.phone_number),
-        'date': str(datetime.now(zone).date())
+        'date': str(datetime.now(zone).date()),
+        'link': str(message.link)
     })
     print(data)
     async with aiofiles.open('to_upload.json', 'w',encoding='utf-8') as fp:
